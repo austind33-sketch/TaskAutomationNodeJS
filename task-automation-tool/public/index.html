@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Task Automation Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('pexels-tima-miroshnichenko-5845904.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        nav {
+            background-color: #333;
+            overflow: hidden;
+            width: 100%;
+            position: fixed;
+            top: 0;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-family: 'Merriweather', serif;
+        }
+        nav a:hover, nav a.active {
+            background-color: #ddd;
+            color: black;
+        }
+        .container {
+            background: url('paisley.png') repeat 0 0;
+            background-size: auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            margin: 80px 20px 20px 20px; /* Adjusted margin to account for fixed nav */
+        }
+        h1 {
+            font-family: 'Merriweather', serif;
+            text-align: center;
+            color: #333;
+        }
+        a {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        input, button, select {
+            margin-top: 5px;
+            padding: 10px;
+            width: calc(100% - 22px);
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #ff7f50; /* Warm orange color */
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: white;
+            color: #ff7f50;
+            border: 1px solid #ff7f50;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        h2 {
+            font-family: 'Merriweather', serif;
+            color: #333;
+        }
+        select {
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="cover.html">Cover Page</a>
+        <a href="index.html" class="active">Main Tool Page</a>
+    </nav>
+    <div class="container">
+        <h1>Task Automation Tool</h1>
+        <form id="taskForm">
+            <label for="name">Task Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" required><br><br>
+            <label for="time">Time (YYYY-MM-DD HH:MM:SS):</label>
+            <input type="text" id="time" name="time" required><br><br>
+            <label for="recurrence">Recurrence:</label>
+            <select id="recurrence" name="recurrence">
+                <option value="none">None</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="yearly">Yearly</option>
+            </select><br><br>
+            <button type="submit">Add Task</button>
+        </form>
+        <button id="clearTasks">Clear Scheduled Tasks</button>
+        <h2>Scheduled Tasks</h2>
+        <ul id="taskList"></ul>
+        <h2>Completed Tasks</h2>
+        <select id="completedTasks" size="5"></select>
+    </div>
+
+    <script>
+        // Function to handle form submission
+        document.getElementById('taskForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            console.log('Form submitted');
+            const name = document.getElementById('name').value;
+            const description = document.getElementById('description').value;
+            const time = document.getElementById('time').value;
+            const recurrence = document.getElementById('recurrence').value;
+
+            // Send a POST request to add a new task
+            try {
+                const response = await fetch('/add-task', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, description, time, recurrence })
+                });
+
+                const result = await response.text();
+                console.log('Task added:', result);
+                alert(result);
+                loadTasks();
+            } catch (error) {
+                console.error('Error adding task:', error);
+            }
+        });
+
+        // Function to load tasks from the server
+        async function loadTasks() {
+            console.log('Loading tasks');
+            try {
+                const response = await fetch('/tasks');
+                const tasks = await response.json();
+                console.log('Tasks loaded:', tasks);
+                const taskList = document.getElementById('taskList');
+                taskList.innerHTML = '';
+                tasks.forEach(task => {
+                    const li = document.createElement('li');
+                    li.textContent = `${task.name} - ${task.description} at ${task.time}`;
+                    taskList.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Error loading tasks:', error);
+            }
+        }
+
+        // Function to load completed tasks from the server
+        async function loadCompletedTasks() {
+            console.log('Loading completed tasks');
+            try {
+                const response = await fetch('/completed-tasks');
+                const tasks = await response.json();
+                console.log('Completed tasks loaded:', tasks);
+                const completedTasks = document.getElementById('completedTasks');
+                completedTasks.innerHTML = '';
+                tasks.forEach(task => {
+                    const option = document.createElement('option');
+                    option.textContent = `${task.name} - ${task.description} at ${task.time}`;
+                    completedTasks.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading completed tasks:', error);
+            }
+        }
+
+        // Function to clear scheduled tasks
+        document.getElementById('clearTasks').addEventListener('click', async () => {
+            console.log('Clearing scheduled tasks');
+            try {
+                const response = await fetch('/clear-tasks', {
+                    method: 'POST'
+                });
+                const result = await response.text();
+                console.log('Tasks cleared:', result);
+                alert(result);
+                loadTasks();
+            } catch (error) {
+                console.error('Error clearing tasks:', error);
+            }
+        });
+
+        // Load tasks and completed tasks when the page loads
+        loadTasks();
+        loadCompletedTasks();
+    </script>
+</body>
+</html>

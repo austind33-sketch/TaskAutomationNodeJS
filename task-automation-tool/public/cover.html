@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Task Automation Tool - Cover Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            background-image: url('pexels-pixabay-159298.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            font-family: 'Merriweather', serif;
+        }
+        nav a:hover, nav a.active {
+            background-color: #ddd;
+            color: black;
+        }
+        h1, h2 {
+            color: #333;
+            font-family: 'Merriweather', serif; /* Apply Merriweather font to headings */
+        }
+        h1 {
+            text-align: center; /* Center the title */
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #ff7f50; /* Warm orange color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px; /* Add margin-top for spacing */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        button i {
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: white;
+            color: #ff7f50;
+            border: 1px solid #ff7f50;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+        }
+        .image-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            max-width: 95%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            margin-bottom: 10px;
+        }
+        ul li a {
+            color: #007BFF;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        ul li a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="cover.html" class="active">Cover Page</a>
+        <a href="index.html">Main Tool Page</a>
+    </nav>
+    <div class="container">
+        <h1>Welcome to the Task Automation Tool</h1>
+        <div class="image-container">
+            <img src="pexels-breakingpic-3243.jpg" alt="Task Automation Tool">
+            <div class="button-container">
+                <button onclick="location.href='index.html'"><i class="fas fa-cog"></i> Go to the Tool</button>
+            </div>
+        </div>
+        <h2>About</h2>
+        <p>The Task Automation Tool is designed to help users schedule and automate repetitive tasks. This tool allows you to create tasks with specific descriptions and schedule them to run at specified times. The tasks are stored in an SQLite database and are executed automatically using the `node-schedule` library.</p>
+        
+        <h2>How to Use the Tool</h2>
+        <p>To use the Task Automation Tool, follow these steps:</p>
+        <ol>
+            <li>Navigate to the main tool page by clicking the button below.</li>
+            <li>Fill out the form with the task name, description, scheduled time, and recurrence interval.</li>
+            <li>Click the "Add Task" button to schedule the task.</li>
+            <li>View the scheduled tasks in the "Scheduled Tasks" section.</li>
+            <li>View the completed tasks in the "Completed Tasks" dropdown.</li>
+            <li>Clear all scheduled tasks by clicking the "Clear Scheduled Tasks" button.</li>
+        </ol>
+        
+        <h2>Useful Resources</h2>
+        <ul>
+            <li><a href="https://expressjs.com/" target="_blank">Express</a></li>
+            <li><a href="https://nodejs.org/en/docs/" target="_blank">Node.js</a></li>
+            <li><a href="https://www.sqlite.org/docs.html" target="_blank">SQLite</a></li>
+            <li><a href="https://www.npmjs.com/package/node-schedule" target="_blank">node-schedule</a></li>
+        </ul>
+    </div>
+</body>
+</html>
